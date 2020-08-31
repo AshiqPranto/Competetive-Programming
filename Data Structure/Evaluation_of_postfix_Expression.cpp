@@ -92,3 +92,17 @@ int main()
     }
     printf("%lld",top());
 }
+
+pair<modInt, modInt> fib (int n) {
+        // return nth and n+1 th fib number
+        if (n == 0)
+            return {modInt(0), modInt(1)};
+
+        auto p = fib(n >> 1);
+        modInt c = p.first * (2 * p.second - p.first);
+        modInt d = p.first * p.first + p.second * p.second;
+        if (n & 1)
+            return {d, c + d};
+        else
+            return {c, d};
+    }
