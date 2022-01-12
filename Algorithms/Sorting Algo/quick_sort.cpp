@@ -35,7 +35,7 @@
 #define writefile freopen("output.txt","w",stdout);
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define gap " "
-#define mx 100005
+#define mx 100000
 #define inf (ll)1e17
 #define WHITE 1
 #define GRAY 2
@@ -73,51 +73,47 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
  
-vector<ll>adj[mx];
-vector<ll>indegree(mx,0);
-ll n,m;
-stack<ll> ans;
-bool vis[mx];
+ll a[mx];
+ll n;
 
-void dfs(ll index)
+ll partition(ll l,ll h)
 {
-    vis[index] = 1;
-    for(int i = 0;i<adj[index].size();i++)
+    ll pivot = l;
+    ll i = l;
+    ll j = h;
+    while (i<j)
     {
-        if(vis[adj[index][i]]==0)
-        {
-            vis[adj[index][i]] = 1;
-            dfs(adj[index][i]);
-        }
+        do{
+            i++;
+        }while(a[i]<=a[pivot]);
+        do{
+            j--;
+        }while(a[j]>a[pivot]);
+        if(i<j) swap(a[i],a[j]);
     }
-    ans.push(index);
+    swap(a[l],a[j]);
+    return j;
 
 }
 
+void quick_sort(ll l,ll h)
+{
+    if(l<h)
+    {
+        ll j = partition(l,h);
+        quick_sort(l,j);
+        quick_sort(j+1,h);
+    }
+}
 
 void eff()
 {
-    sffl(n,m);
-    ll u,v;
-    while (m--)
-    {
-        sffl(u,v);
-        adj[u].pb(v);
-        indegree[v]++;
-    }
-    for(int i = 1;i<=n;i++)
-    {
-        if(vis[i]==0)
-        {
-            dfs(i);
-        }
-    }
-    while (!ans.empty())
-    {
-        printf("%lld ",ans.top());
-        ans.pop();
-    }
-    
+    cin>>n;
+    for(int i = 0;i<n;i++) cin>>a[i];
+    // a[n] = 100;
+    quick_sort(0,n);
+    for(int i = 0;i<n;i++) cout<<a[i]<<", ";
+
 }
  
 int main()
