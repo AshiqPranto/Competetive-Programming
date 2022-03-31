@@ -35,7 +35,7 @@
 #define writefile freopen("output.txt","w",stdout);
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define gap " "
-#define mx 100000
+#define mx 104
 #define inf (ll)1e17
 #define WHITE 1
 #define GRAY 2
@@ -72,66 +72,49 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-ll a[mx];
-ll n;
-
-// ll partition(ll l,ll h)
-// {
-//     ll pivot = l;
-//     ll i = l;
-//     ll j = h;
-//     while (i<j)
-//     {
-//         do{
-//             i++;
-//         }while(a[i]<=a[pivot]);
-//         do{
-//             j--;
-//         }while(a[j]>a[pivot]);
-//         if(i<j) swap(a[i],a[j]);
-//     }
-//     swap(a[l],a[j]);
-//     return j;
-
-// }
-
-int partition(int start,int end)
-{
-    int pivot = a[end];
-    int partitionIndex = start;
-    int i = start;
-    while (i<end)
-    {
-        if(a[i]<=pivot)
-        {
-            swap(a[i],a[partitionIndex]);
-            partitionIndex++;
-        }
-        i++;
-    }
-    swap(a[partitionIndex],a[end]);
-    return partitionIndex;
-}
-
-void quick_sort(ll start,ll end)
-{
-    if(start<end)
-    {
-        ll j = partition(start,end);
-        quick_sort(start,j-1);
-        quick_sort(j,end);
-    }
-}
-
+ 
 void eff()
 {
-    cin>>n;
-    for(int i = 0;i<n;i++) cin>>a[i];
-    // a[n] = 100;
-    quick_sort(0,n-1);
-    for(int i = 0;i<n;i++) cout<<a[i]<<", ";
-
+    int n;
+    sf(n);
+    int a[n][n];
+    for(int i = 0;i<n;i++)
+    {
+        for(int j= 0;j<n;j++)
+        {
+            sf(a[i][j]);    
+        }
+    }
+    int ans = 0;
+    for(int i = 0;i<n;i++)
+    {
+        for(int j =0;j<n;j++)
+        {
+            if(a[i][j]==1)
+            {
+                for(int k = j+1;k<n;k++)
+                {
+                    if(a[i][k] == 1)
+                    {
+                        for(int l = i+1;l<n;l++)
+                        {
+                            int temp = 0;
+                            for(int m = 0;m<n;m++)
+                            {
+                                if(a[l][m]==1)
+                                {
+                                    if(m == j) temp++;
+                                    if(m==k) temp++;
+                                }
+                            }
+                            if(temp==2) ans++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cout<<ans<<endl;
 }
  
 int main()
@@ -147,4 +130,3 @@ int main()
 //    cout<<check(81);
     return 0;
 }
-

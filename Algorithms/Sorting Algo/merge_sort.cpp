@@ -8,6 +8,8 @@
 #define ll long long
 #define ld long double
 #define FOR(x, y) for (ll i = x; i <= y; i++)
+#define f0(x) for (ll i = 0; i <= x; i++)
+#define f1(x) for (ll i = 1; i <= x; i++)
 #define pb(x) push_back(x)
 #define mp make_pair
 #define pii pair<int, int>
@@ -36,7 +38,7 @@
     cin.tie(NULL);
 #define gap " "
 #define mx 104
-#define inf (ll)1e9
+#define inf (ll)1e17
 #define WHITE 1
 #define GRAY 2
 #define BLACK 3
@@ -95,125 +97,78 @@ void _print(T t, V... v)
 #define debug(x...)
 #endif
 
-struct point
-{
-    ll x, y;
+int arr[7] = {9, 3, 1, 7, 2, 8, 4};
 
-    bool operator==(point p)
+void merge(int l, int mid, int h)
+{
+    int temp[(h - l)];
+    int i = l;
+    int j = mid + 1;
+    int k = 0;
+    while (i <= mid && j < h)
     {
-        if (x == p.x && y == p.y)
-            return 1;
-        return 0;
-    }
-    bool operator<(const point &p) const
-    {
-        if (p.x == x)
-            return y < p.y;
+        if (arr[i] < arr[j])
+        {
+            temp[k] = arr[i];
+            i++;
+        }
         else
-            return x < p.x;
+        {
+            temp[k] = arr[j];
+            j++;
+        }
+        k++;
     }
-};
-
-ll crossProduct(point a, point b, point c)
-{
-    ll y1 = b.y - a.y;
-    ll y2 = c.y - a.y;
-    ll x1 = b.x - a.x;
-    ll x2 = c.x - a.x;
-
-    return x1 * y2 - x2 * y1;
+    while (i <= mid)
+    {
+        temp[k] = arr[i];
+        i++;
+        k++;
+    }
+    while (j < h)
+    {
+        temp[k] = arr[j];
+        j++;
+        k++;
+    }
+    for (i = 0; i < k; i++)
+    {
+        arr[l+i] = temp[i];
+    }
 }
 
-ll distance(point a, point b, point c)
+void merge_sort(int l, int h)
 {
-    ll y1 = b.y - a.y;
-    ll y2 = c.y - a.y;
-    ll x1 = b.x - a.x;
-    ll x2 = c.x - a.x;
-    ll temp1 = sqr(x1) + sqr(y1);
-    ll temp2 = sqr(x2) + sqr(y2);
-    if (temp1 == temp2)
-        return 0;
-    else if (temp1 < temp2)
-        return -1;
-    else
-        return 1;
+    if (l >= h)
+        return;
+    int mid = (l + h) / 2;
+    merge_sort(l, mid+1);
+    merge_sort(mid + 1, h);
+    merge(l, mid, h);
 }
 
 void eff()
 {
-    printf("Enter the number of points:");
-    ll n;
-    sfl(n);
-    vector<point> points(n);
+    int n = 7;
+    // int arr[n] = {9,3,1,7,2,8,4};
 
-    for (ll i = 0; i < n; i++)
-    {
-        sffl(points[i].x, points[i].y);
-    }
-
-    point start = points[0];
-    for (ll i = 0; i < n; i++)
-    {
-        if (points[i].x < start.x)
-        {
-            start = points[i];
-        }
-    }
-    point current = start;
-    set<point> result;
-    result.insert(start);
-    vector<point> collinearPoints;
-
-    while (true)
-    {
-        point nextTarget = points[0];
-        for (ll i = 0; i < n; i++)
-        {
-            if (points[i] == current)
-            {
-                continue;
-            }
-            ll val = crossProduct(current, nextTarget, points[i]);
-            if (val > 0)
-            {
-                nextTarget = points[i];
-                collinearPoints.clear();
-            }
-            else if (val == 0)
-            {
-                if (distance(current, nextTarget, points[i]) < 0)
-                {
-                    collinearPoints.push_back(nextTarget);
-                    nextTarget = points[i];
-                }
-                else
-                {
-                    collinearPoints.push_back(points[i]);
-                }
-            }
-        }
-        for (point p : collinearPoints)
-        {
-            result.insert(p);
-        }
-        if (nextTarget == start)
-        {
-            break;
-        }
-        result.insert(nextTarget);
-        current = nextTarget;
-    }
-    printf("Convex Hull point:\n");
-    for (point p : result)
-    {
-        printf("(%lld,%lld)\n", p.x, p.y);
-    }
+    //Fixed hoy nai, wrong code
+    
+    merge_sort(0, n);
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
 }
 
 int main()
 {
     // fastio
-    eff();
+    ll test = 1;
+    // sfl(test);
+    for (ll i = 0; i < test; i++)
+    {
+        // printf("Case %lld: ",i+1);
+        eff();
+    }
+    //    cout<<check(81);
     return 0;
 }

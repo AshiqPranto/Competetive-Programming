@@ -35,7 +35,7 @@
 #define writefile freopen("output.txt","w",stdout);
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define gap " "
-#define mx 100000
+#define mx 104
 #define inf (ll)1e17
 #define WHITE 1
 #define GRAY 2
@@ -72,66 +72,36 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-ll a[mx];
-ll n;
-
-// ll partition(ll l,ll h)
-// {
-//     ll pivot = l;
-//     ll i = l;
-//     ll j = h;
-//     while (i<j)
-//     {
-//         do{
-//             i++;
-//         }while(a[i]<=a[pivot]);
-//         do{
-//             j--;
-//         }while(a[j]>a[pivot]);
-//         if(i<j) swap(a[i],a[j]);
-//     }
-//     swap(a[l],a[j]);
-//     return j;
-
-// }
-
-int partition(int start,int end)
-{
-    int pivot = a[end];
-    int partitionIndex = start;
-    int i = start;
-    while (i<end)
-    {
-        if(a[i]<=pivot)
-        {
-            swap(a[i],a[partitionIndex]);
-            partitionIndex++;
-        }
-        i++;
-    }
-    swap(a[partitionIndex],a[end]);
-    return partitionIndex;
-}
-
-void quick_sort(ll start,ll end)
-{
-    if(start<end)
-    {
-        ll j = partition(start,end);
-        quick_sort(start,j-1);
-        quick_sort(j,end);
-    }
-}
-
+ 
 void eff()
 {
-    cin>>n;
-    for(int i = 0;i<n;i++) cin>>a[i];
-    // a[n] = 100;
-    quick_sort(0,n-1);
-    for(int i = 0;i<n;i++) cout<<a[i]<<", ";
-
+    ll n;
+    sfl(n);
+    ll a[n];
+    ll minimum = inf,neg = 0;
+    ll ans = 0;
+    for(int i = 0;i<n;i++)
+    {
+        sfl(a[i]);
+        ans+=(abs(abs(a[i])-1));
+        minimum = min(minimum,abs(a[i]));
+        if(a[i]<0) neg++;
+    }
+    if(neg&1)
+    {
+        ans-=abs(minimum-1);
+        if(minimum==0) 
+            ans++;
+        else if(minimum==1) 
+            ans+=2;
+        else
+            ans+=abs(minimum-1);
+        cout<<ans<<endl;
+    }
+    else{
+        cout<<ans<<endl;
+    }
+    
 }
  
 int main()
@@ -147,4 +117,3 @@ int main()
 //    cout<<check(81);
     return 0;
 }
-

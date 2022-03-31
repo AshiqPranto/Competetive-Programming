@@ -8,6 +8,8 @@
 #define ll long long
 #define ld long double
 #define FOR(x, y) for (ll i = x; i <= y; i++)
+#define f0(x) for (ll i = 0; i <= x; i++)
+#define f1(x) for (ll i = 1; i <= x; i++)
 #define pb(x) push_back(x)
 #define mp make_pair
 #define pii pair<int, int>
@@ -36,7 +38,7 @@
     cin.tie(NULL);
 #define gap " "
 #define mx 104
-#define inf (ll)1e9
+#define inf (ll)1e17
 #define WHITE 1
 #define GRAY 2
 #define BLACK 3
@@ -95,125 +97,60 @@ void _print(T t, V... v)
 #define debug(x...)
 #endif
 
-struct point
-{
-    ll x, y;
-
-    bool operator==(point p)
-    {
-        if (x == p.x && y == p.y)
-            return 1;
-        return 0;
-    }
-    bool operator<(const point &p) const
-    {
-        if (p.x == x)
-            return y < p.y;
-        else
-            return x < p.x;
-    }
-};
-
-ll crossProduct(point a, point b, point c)
-{
-    ll y1 = b.y - a.y;
-    ll y2 = c.y - a.y;
-    ll x1 = b.x - a.x;
-    ll x2 = c.x - a.x;
-
-    return x1 * y2 - x2 * y1;
-}
-
-ll distance(point a, point b, point c)
-{
-    ll y1 = b.y - a.y;
-    ll y2 = c.y - a.y;
-    ll x1 = b.x - a.x;
-    ll x2 = c.x - a.x;
-    ll temp1 = sqr(x1) + sqr(y1);
-    ll temp2 = sqr(x2) + sqr(y2);
-    if (temp1 == temp2)
-        return 0;
-    else if (temp1 < temp2)
-        return -1;
-    else
-        return 1;
-}
-
 void eff()
 {
-    printf("Enter the number of points:");
-    ll n;
-    sfl(n);
-    vector<point> points(n);
-
-    for (ll i = 0; i < n; i++)
+    ll n, m;
+    sffl(n, m);
+    ll a[n];
+    ll sum = 0;
+    f0(n - 1)
     {
-        sffl(points[i].x, points[i].y);
+        sfl(a[i]);
+        sum += a[i];
     }
-
-    point start = points[0];
-    for (ll i = 0; i < n; i++)
+    if (sum % m)
     {
-        if (points[i].x < start.x)
-        {
-            start = points[i];
-        }
+        cout << n << endl;
+        return;
     }
-    point current = start;
-    set<point> result;
-    result.insert(start);
-    vector<point> collinearPoints;
-
-    while (true)
+    else
     {
-        point nextTarget = points[0];
-        for (ll i = 0; i < n; i++)
+        ll ans = -1;
+        f0(n - 1)
         {
-            if (points[i] == current)
+            if ((a[i] % m) != 0)
             {
-                continue;
-            }
-            ll val = crossProduct(current, nextTarget, points[i]);
-            if (val > 0)
-            {
-                nextTarget = points[i];
-                collinearPoints.clear();
-            }
-            else if (val == 0)
-            {
-                if (distance(current, nextTarget, points[i]) < 0)
-                {
-                    collinearPoints.push_back(nextTarget);
-                    nextTarget = points[i];
-                }
-                else
-                {
-                    collinearPoints.push_back(points[i]);
-                }
+                ans = max(ans, n - i - 1);
             }
         }
-        for (point p : collinearPoints)
+        for (int i = n - 1; i >= 0; i--)
         {
-            result.insert(p);
+            if ((a[i] % m) != 0)
+            {
+                ans = max(ans, (ll)i);
+            }
         }
-        if (nextTarget == start)
+        if (ans == 0)
         {
-            break;
+            cout << -1 << endl;
         }
-        result.insert(nextTarget);
-        current = nextTarget;
-    }
-    printf("Convex Hull point:\n");
-    for (point p : result)
-    {
-        printf("(%lld,%lld)\n", p.x, p.y);
+        else
+        {
+            cout << ans << endl;
+        }
     }
 }
 
 int main()
 {
     // fastio
-    eff();
+    ll test = 1;
+    sfl(test);
+    for (ll i = 0; i < test; i++)
+    {
+        // printf("Case %lld: ",i+1);
+        eff();
+    }
+    //    cout<<check(81);
     return 0;
 }

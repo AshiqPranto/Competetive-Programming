@@ -35,7 +35,7 @@
 #define writefile freopen("output.txt","w",stdout);
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define gap " "
-#define mx 100000
+#define mx 104
 #define inf (ll)1e17
 #define WHITE 1
 #define GRAY 2
@@ -72,66 +72,48 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-ll a[mx];
-ll n;
-
-// ll partition(ll l,ll h)
-// {
-//     ll pivot = l;
-//     ll i = l;
-//     ll j = h;
-//     while (i<j)
-//     {
-//         do{
-//             i++;
-//         }while(a[i]<=a[pivot]);
-//         do{
-//             j--;
-//         }while(a[j]>a[pivot]);
-//         if(i<j) swap(a[i],a[j]);
-//     }
-//     swap(a[l],a[j]);
-//     return j;
-
-// }
-
-int partition(int start,int end)
-{
-    int pivot = a[end];
-    int partitionIndex = start;
-    int i = start;
-    while (i<end)
-    {
-        if(a[i]<=pivot)
-        {
-            swap(a[i],a[partitionIndex]);
-            partitionIndex++;
-        }
-        i++;
-    }
-    swap(a[partitionIndex],a[end]);
-    return partitionIndex;
-}
-
-void quick_sort(ll start,ll end)
-{
-    if(start<end)
-    {
-        ll j = partition(start,end);
-        quick_sort(start,j-1);
-        quick_sort(j,end);
-    }
-}
-
+ 
 void eff()
 {
-    cin>>n;
-    for(int i = 0;i<n;i++) cin>>a[i];
-    // a[n] = 100;
-    quick_sort(0,n-1);
-    for(int i = 0;i<n;i++) cout<<a[i]<<", ";
-
+    string s;
+    cin>>s;
+    int sz = s.size();
+    // int failure[sz+5];
+    vector<int>failure(sz+1,0);
+    failure[0] = failure[1] = 0;
+    for(int i = 2;i<=sz;i++)
+    {
+        int j = failure[i-1];
+        while (true)
+        {
+            if(s[j] == s[i-1])
+            {
+                failure[i] = j +1;
+                break;
+            }
+            else if(j==0) 
+            {
+                failure[i] = 0;
+                break;
+            }
+            j = failure[j];
+        }
+    }
+    debug(failure);
+    vector<int>ans;
+    int j = failure[sz];
+    while (j!=0)
+    {
+        ans.pb(j);
+        j = failure[j];
+    }
+    sort(ans.begin(),ans.end());
+    debug(ans);
+    for(int x: ans)
+    {
+        printf("%d ",x);
+    }
+    
 }
  
 int main()
@@ -147,4 +129,3 @@ int main()
 //    cout<<check(81);
     return 0;
 }
-

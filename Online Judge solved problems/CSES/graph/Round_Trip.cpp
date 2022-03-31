@@ -35,7 +35,7 @@
 #define writefile freopen("output.txt","w",stdout);
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define gap " "
-#define mx 100000
+#define mx 100005
 #define inf (ll)1e17
 #define WHITE 1
 #define GRAY 2
@@ -72,66 +72,89 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
+ 
+vector<int>adj[mx];
+vector<int>par(mx);
+bool vis[mx];
+int ans;
 
-ll a[mx];
-ll n;
-
-// ll partition(ll l,ll h)
-// {
-//     ll pivot = l;
-//     ll i = l;
-//     ll j = h;
-//     while (i<j)
-//     {
-//         do{
-//             i++;
-//         }while(a[i]<=a[pivot]);
-//         do{
-//             j--;
-//         }while(a[j]>a[pivot]);
-//         if(i<j) swap(a[i],a[j]);
-//     }
-//     swap(a[l],a[j]);
-//     return j;
-
-// }
-
-int partition(int start,int end)
+void dfs(int x)
 {
-    int pivot = a[end];
-    int partitionIndex = start;
-    int i = start;
-    while (i<end)
+    // debug(x);
+    if(ans) return;
+    vis[x] = true;
+    for(int v: adj[x])
     {
-        if(a[i]<=pivot)
+        if(ans) return;
+        if(v!=par[x])
         {
-            swap(a[i],a[partitionIndex]);
-            partitionIndex++;
+            // debug(v);
+            par[v] = x;
+            if(vis[v])
+            {
+                ans = v;
+                // debug(ans);
+                return;
+            }
+            dfs(v);
         }
-        i++;
-    }
-    swap(a[partitionIndex],a[end]);
-    return partitionIndex;
-}
-
-void quick_sort(ll start,ll end)
-{
-    if(start<end)
-    {
-        ll j = partition(start,end);
-        quick_sort(start,j-1);
-        quick_sort(j,end);
     }
 }
 
 void eff()
 {
-    cin>>n;
-    for(int i = 0;i<n;i++) cin>>a[i];
-    // a[n] = 100;
-    quick_sort(0,n-1);
-    for(int i = 0;i<n;i++) cout<<a[i]<<", ";
-
+    int n,m;
+    sff(n,m);
+    int u,v;
+    for(int i = 0;i<m;i++)
+    {
+        sff(u,v);
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    // for(int i = 1;i<=n;i++)
+    // {
+    //     cout<<i<<" -> ";
+    //     for(int j = 0;j<adj[i].size();j++)
+    //     {
+    //         cout<<adj[i][j]<<",";
+    //     }
+    //     cout<<endl;
+    // }
+    for(int i = 1; i<=n;i++)
+    {
+        if(vis[i]==0 && ans==0)
+        {
+            par[i] = -1;
+            dfs(i);
+            if(ans==1) break;
+        }
+        // memset(par,0,sizeof(par));
+        // memset(vis,0,sizeof(vis));
+    }
+    // debug(ans);
+    // debug(par);
+    if(ans)
+    {
+        vector<int>result;
+        result.pb(ans);
+        int x = ans;
+        while (par[x]!=ans)
+        {
+            x = par[x];
+            result.pb(x);
+        }
+        result.pb(ans);
+        cout<<result.size()<<endl;
+        for(int temp: result)
+        {
+            cout<<temp<<" ";
+        }
+    }
+    else
+    {
+        cout<<"IMPOSSIBLE";
+    }
 }
  
 int main()
@@ -147,4 +170,3 @@ int main()
 //    cout<<check(81);
     return 0;
 }
-
