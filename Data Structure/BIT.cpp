@@ -1,34 +1,27 @@
-struct BIT
+int BIT[1000], a[1000], n;
+void update(int x, int delta)
 {
-    ll sz;
-    vector<ll>a;
+      for(; x <= n; x += x&-x)
+        BIT[x] += delta;
+}
+int query(int x)
+{
+     int sum = 0;
+     for(; x > 0; x -= x&-x)
+        sum += BIT[x];
+     return sum;
+}
 
-    void init(ll n)
-    {
-        sz = n;
-        a = vector<ll>(n+1,0);
-    }
-
-    void update(ll index,ll x)
-    {
-        if(index<=0) return;
-        while(index<=sz)
-        {
-            a[index]+=x;
-            index+=index&(-index);
-        }
-    }
-
-    ll query(ll index)
-    {
-        ll sum = 0;
-        while(index>0)
-        {
-            sum+=a[index];
-            index-=index&(-index);
-        }
-        return sum;
-    }
-    // bit's are 1 indexed, be carefull
-
-};
+int main()
+{
+     scanf(“%d”, &n);
+     int i;
+     for(i = 1; i <= n; i++)
+     {
+           scanf(“%d”, &a[i]);
+           update(i, a[i]);
+     }
+     printf(“sum of first 10 elements is %d\n”, query(10));
+     printf(“sum of all elements in range [2, 7] is %d\n”, query(7) – query(2-1));
+     return 0;
+}

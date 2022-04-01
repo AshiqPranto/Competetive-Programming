@@ -135,16 +135,17 @@ bool kmp(string text, string pattern)
             return true;
         if (i == n)
             return false;
-        if(j==0)
-            i++;
         if (text[i] == pattern[j])
         {
-            i++;
+            i++;    
             j++;
         }
         else
         {
-            j = failure[j];
+            if(j==0)
+                i++;
+            else
+                j = failure[j];
         }
     }
 }
