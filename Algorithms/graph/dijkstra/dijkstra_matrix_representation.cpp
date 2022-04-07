@@ -1,4 +1,4 @@
-/* © Ashiq Uddin Pranto
+/* ï¿½ Ashiq Uddin Pranto
    Department of Computer Science and Engineering
    BATCH 27
    University Of Rajshahi,Bangladesh
@@ -51,7 +51,7 @@ struct node
 {
     ll currentNode;
     ll parent;
-    ll color;
+ll color;
     ll costMin;
 
     bool operator<(const node& temp) const
