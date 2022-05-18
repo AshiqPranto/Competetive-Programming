@@ -137,7 +137,7 @@ bool kmp(string text, string pattern)
             return false;
         if (text[i] == pattern[j])
         {
-            i++;    
+            i++;
             j++;
         }
         else

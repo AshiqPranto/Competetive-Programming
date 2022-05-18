@@ -51,7 +51,6 @@ ll totalCoin;
 ll coins[100];
 ll numberOfSolutions(ll total)
 {
-
     ll dp[totalCoin+1][total+1];
     for(ll i=0;i<=totalCoin;i++) dp[i][0] = 1;
     for(ll i=0;i<total+1;i++) dp[0][i] = 0;
@@ -67,10 +66,8 @@ ll numberOfSolutions(ll total)
             {
                 dp[i][j] = dp[i][j-coins[i-1]] + dp[i-1][j];
             }
-
         }
     }
-
     return dp[totalCoin][total];
 }
 /**

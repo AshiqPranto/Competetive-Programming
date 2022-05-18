@@ -1,4 +1,4 @@
-/* © Ashiq Uddin Pranto
+/* ï¿½ Ashiq Uddin Pranto
    Department of Computer Science and Engineering
    BATCH 27
    University Of Rajshahi,Bangladesh
@@ -55,7 +55,6 @@ void topologicalSort()
             in_degree[edges[u][v]]++;
         }
     }
-
 
     queue<ll>q;
     for(ll i=0;i<vertex;i++)

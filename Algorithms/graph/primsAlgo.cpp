@@ -27,11 +27,11 @@ int main(){
 
     priority_queue< pair<int,int>, vector <pair<int,int>> , greater<pair<int,int>> > pq;
 
-    key[0] = 0; 
-    parent[0] = -1; 
+    key[0] = 0;
+    parent[0] = -1;
     pq.push({0, 0});
     // Run the loop till all the nodes have been visited
-    // because in the brute code we checked for mstSet[node] == false while computing the minimum
+    // beca use in the brute code we checked for mstSet[node] == false while computing the minimum
     // but here we simply take the minimal from the priority queue, so a lot of times a node might be taken twice
     // hence its better to keep running till all the nodes have been taken. 
     // try the following case: 
@@ -56,12 +56,11 @@ int main(){
             int weight = it.second;
             if (mstSet[v] == false && weight < key[v]) {
                 parent[v] = u;
-		key[v] = weight; 
+		        key[v] = weight; 
                 pq.push({key[v], v});    
             }
         }
-            
-    } 
+    }
     
     for (int i = 1; i < N; i++) 
         cout << parent[i] << " - " << i <<" \n"; 
